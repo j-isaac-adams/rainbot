@@ -8,7 +8,6 @@
 		<version>4.0.0-M1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.jiadams</groupId>
 	<artifactId>rainbot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>rainbot</name>
