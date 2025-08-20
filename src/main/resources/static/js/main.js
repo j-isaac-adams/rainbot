@@ -5,7 +5,9 @@ class RainbotApp {
         this.loadedComponents = new Map();
         this.routes = {
             '/': 'homepage',
-            '/about': 'about',
+            '/baccarat': 'baccarat',
+            '/blackjack': 'blackjack',
+            '/poker': 'poker'
         };
         
         this.init();
@@ -15,6 +17,7 @@ class RainbotApp {
         window.rainbotApp = this;
         
         this.handleRoute();
+        this.createLayout();
         
         window.addEventListener('popstate', () => {
             this.handleRoute();
@@ -29,15 +32,36 @@ class RainbotApp {
         });
     }
 
+    createLayout() {
+        this.appContainer.innerHTML = `
+            <div id="page-content"></div>
+        `;
+    }
+
     handleRoute() {
         const path = window.location.pathname;
         const componentName = this.routes[path] || this.routes['/'];
         this.loadAndRenderComponent(componentName);
+        this.updateNavigation(path);
     }
 
     navigateTo(path) {
         window.history.pushState({}, '', path);
         this.handleRoute();
+    }
+
+    updateNavigation(activePath) {
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        let activeRoute = '';
+        activeRoute = activePath.substring(1);
+        
+        const activeLink = document.querySelector(`[data-route="${activeRoute}"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+        }
     }
 
     async loadAndRenderComponent(componentName) {
@@ -77,24 +101,30 @@ class RainbotApp {
         }
         
         this.currentComponent = component;
-        this.appContainer.innerHTML = '';
-        
-        if (component.render) {
-            const element = component.render();
-            if (element) {
-                this.appContainer.appendChild(element);
+        const pageContent = document.getElementById('page-content');
+        if (pageContent) {
+            pageContent.innerHTML = '';
+            
+            if (component.render) {
+                const element = component.render();
+                if (element) {
+                    pageContent.appendChild(element);
+                }
             }
         }
     }
 
     showError(message) {
-        this.appContainer.innerHTML = `
-            <div style="padding: 20px; color: red; text-align: center;">
-                <h2>Error</h2>
-                <p>${message}</p>
-                <button onclick="window.location.reload()">Reload Page</button>
-            </div>
-        `;
+        const pageContent = document.getElementById('page-content');
+        if (pageContent) {
+            pageContent.innerHTML = `
+                <div style="padding: 20px; color: red; text-align: center;">
+                    <h2>Error</h2>
+                    <p>${message}</p>
+                    <button onclick="window.location.reload()">Reload Page</button>
+                </div>
+            `;
+        }
     }
 
     addRoute(path, componentName) {

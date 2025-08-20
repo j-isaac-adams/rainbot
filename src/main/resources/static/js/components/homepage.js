@@ -1,14 +1,19 @@
-// Homepage Component
 class HomepageComponent {
     constructor() {
-        this.state = {
-            title: 'Welcome to Rainbot',
-            description: 'Your intelligent weather companion',
-            features: [
-                'Real-time weather updates',
-                'Smart weather predictions',
-                'Personalized recommendations',
-                'Beautiful, intuitive interface'
+        this.data = {
+            games: [
+                {
+                    id: 'baccarat',
+                    name: 'Baccarat'
+                },
+                {
+                    id: 'blackjack',
+                    name: 'Blackjack'
+                },
+                {
+                    id: 'poker',
+                    name: 'Poker'
+                }
             ]
         };
         
@@ -24,75 +29,91 @@ class HomepageComponent {
         container.className = 'homepage-container';
         container.innerHTML = this.getTemplate();
         
-        setTimeout(() => this.bindEvents(), 0);
+        setTimeout(() => {
+            this.loadArtContent();
+            this.bindEvents();
+        }, 0);
         
         return container;
     }
 
     getTemplate() {
         return `
-            <div class="homepage">
-                <header class="homepage-header">
-                    <h1 class="main-title">${this.state.title}</h1>
-                    <p class="main-description">${this.state.description}</p>
-                    <nav class="main-navigation">
-                        <a href="/about" class="nav-link">About</a>
-                    </nav>
-                </header>
-                
-                <main class="homepage-main">
-                    <section class="features-section">
-                        <h2>Features</h2>
-                        <div class="features-grid">
-                            ${this.state.features.map(feature => `
-                                <div class="feature-card">
-                                    <div class="feature-icon">🌤️</div>
-                                    <h3>${feature}</h3>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </section>
-                    
-                    <section class="cta-section">
-                        <h2>Get Started</h2>
-                        <p>Experience the future of weather forecasting</p>
-                        <button class="cta-button" id="get-started-btn">
-                            Launch Rainbot
+            <div class="homepage-container">
+                <div id="rainbot-container"></div>
+                <div class="games-grid">
+                    ${this.data.games.map(game => `
+                        <button class="play-button" data-route="${game.id}">
+                            ${game.name}
                         </button>
-                    </section>
-                </main>
-                
-                <footer class="homepage-footer">
-                    <p>&copy; 2024 Rainbot. All rights reserved.</p>
-                </footer>
+                    `).join('')}
+                </div>
             </div>
         `;
     }
 
-    bindEvents() {
-        const getStartedBtn = document.getElementById('get-started-btn');
-        if (getStartedBtn) {
-            getStartedBtn.addEventListener('click', () => this.handleGetStarted());
+    async loadArtContent() {
+        try {
+            const artModule = await import('/js/components/art.js');
+            
+            if (typeof artModule.default === 'function') {
+                artModule.default();
+            }
+        } catch (error) {
+            console.error('Failed to load art.js:', error);
+            this.createFallbackArt();
         }
+    }
 
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const href = link.getAttribute('href');
-                if (window.rainbotApp) {
-                    window.rainbotApp.navigateTo(href);
-                }
+    createFallbackArt() {
+        const container = document.getElementById('rainbot-container');
+        if (container) {
+            const rainbotArt = `
+██████╗  █████╗ ██╗███╗   ██╗██████╗  ██████╗ ████████╗
+██╔══██╗██╔══██╗██║████╗  ██║██╔══██╗██╔═══██╗╚══██╔══╝
+██████╔╝███████║██║██╔██╗ ██║██████╔╝██║   ██║   ██║   
+██╔══██╗██╔══██╗██║██║╚██╗██║██╔══██╗██║   ██║   ██║   
+██║  ██║██║  ██║██║██║ ╚████║██████╔╝╚██████╔╝   ██║   
+╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝    ╚═╝   
+`;
+            const preElement = document.createElement('pre');
+            preElement.id = 'rainbot-ascii';
+            preElement.textContent = rainbotArt;
+            container.appendChild(preElement);
+        }
+    }
+
+    bindEvents() {
+        const gameCards = document.querySelectorAll('.game-card');
+        gameCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                const gameId = e.currentTarget.dataset.route;
+                this.handleGameClick(gameId);
+            });
+        });
+
+        const playButtons = document.querySelectorAll('.play-button');
+        playButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const gameId = e.currentTarget.dataset.route;
+                this.handleGameClick(gameId);
             });
         });
     }
 
-    handleGetStarted() {
-        // Random test button.
+    handleGameClick(gameId) {
+        console.log(`Game clicked: ${gameId}`);
+        
+        if (window.rainbotApp) {
+            window.rainbotApp.navigateTo(`/${gameId}`);
+        } else {
+            alert(`${this.data.games.find(g => g.id === gameId).name} is coming soon!`);
+        }
     }
 
     destroy() {
-        // Cleanup any event listeners or resources
+        console.log('Homepage component destroyed');
     }
 }
 
