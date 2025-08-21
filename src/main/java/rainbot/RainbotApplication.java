@@ -12,11 +12,6 @@ public class RainbotApplication {
 		SpringApplication.run(RainbotApplication.class, args);
 	}	
 
-	@GetMapping()
-	public String home() {
-		return "index";
-	}
-	
 	@RequestMapping(value = "/{path:[^\\.]*}")
     public String forward() {
         return "forward:/";

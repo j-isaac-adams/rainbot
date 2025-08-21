@@ -1,6 +1,4 @@
-// This function creates and displays the RAINBOT ASCII art
 function createRainbotArt() {
-    // The ASCII art for "RAINBOT"
     const rainbotArt = `
 ██████╗  █████╗ ██╗███╗   ██╗██████╗  ██████╗ ████████╗
 ██╔══██╗██╔══██╗██║████╗  ██║██╔══██╗██╔═══██╗╚══██╔══╝
@@ -12,11 +10,11 @@ function createRainbotArt() {
 
     // Get the container element from the HTML.
     // Make sure you have a <div id="rainbot-container"></div> in your HTML.
-    const container = document.getElementById('rainbot-container');
+    const container = document.getElementById('rainbot-title-container');
 
     // If the container doesn't exist, stop the script to avoid errors.
     if (!container) {
-        console.error('Error: Element with ID "rainbot-container" was not found.');
+        console.error('Error: Element with ID "rainbot-title-container" was not found.');
         return;
     }
 

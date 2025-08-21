@@ -40,7 +40,7 @@ class HomepageComponent {
     getTemplate() {
         return `
             <div class="homepage-container">
-                <div id="rainbot-container"></div>
+                <div id="rainbot-title-container"></div>
                 <div class="games-grid">
                     ${this.data.games.map(game => `
                         <button class="play-button" data-route="${game.id}">
@@ -54,32 +54,13 @@ class HomepageComponent {
 
     async loadArtContent() {
         try {
-            const artModule = await import('/js/components/art.js');
+            const artModule = await import('/js/components/art/titleArt.js');
             
             if (typeof artModule.default === 'function') {
                 artModule.default();
             }
         } catch (error) {
             console.error('Failed to load art.js:', error);
-            this.createFallbackArt();
-        }
-    }
-
-    createFallbackArt() {
-        const container = document.getElementById('rainbot-container');
-        if (container) {
-            const rainbotArt = `
-██████╗  █████╗ ██╗███╗   ██╗██████╗  ██████╗ ████████╗
-██╔══██╗██╔══██╗██║████╗  ██║██╔══██╗██╔═══██╗╚══██╔══╝
-██████╔╝███████║██║██╔██╗ ██║██████╔╝██║   ██║   ██║   
-██╔══██╗██╔══██╗██║██║╚██╗██║██╔══██╗██║   ██║   ██║   
-██║  ██║██║  ██║██║██║ ╚████║██████╔╝╚██████╔╝   ██║   
-╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝    ╚═╝   
-`;
-            const preElement = document.createElement('pre');
-            preElement.id = 'rainbot-ascii';
-            preElement.textContent = rainbotArt;
-            container.appendChild(preElement);
         }
     }
 

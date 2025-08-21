@@ -12,6 +12,15 @@ body {
     color: #ecf0f1;
 }
 
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 2.5rem;
+    color: white; 
+    text-decoration: none;
+}
+
 /* Homepage Styles */
 .homepage-container {
     min-height: 100vh;
@@ -24,8 +33,8 @@ body {
     padding-bottom: 5rem;
 }
 
-#rainbot-container {
-    perspective: 800px; 
+#rainbot-title-container {
+    perspective: 800px;
     width: 100%;
     padding: 2rem;
 }
@@ -40,12 +49,12 @@ body {
     text-align: center;
     
     text-shadow:
-        0px 1px 0px #c8c8c8,
-        0px 2px 0px #b4b4b4,
-        0px 3px 0px #a0a0a0,
-        0px 4px 0px #8c8c8c,
-        0px 5px 0px #787878,
-        0px 6px 0px #646464;
+    0px 1px 0px #c8c8c8,
+    0px 2px 0px #b4b4b4,
+    0px 3px 0px #a0a0a0,
+    0px 4px 0px #8c8c8c,
+    0px 5px 0px #75757540,
+    0px 6px 0px #000000;
 
     transition: all 0.2s ease-out;
 }
@@ -139,4 +148,139 @@ body {
 
 .play-button:active {
     transform: scale(0.98);
+}
+
+/* Baccarat Styles */
+.baccarat-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 85%;
+    margin: 0 auto;
+    padding-bottom: 5rem;
+}
+
+#baccarat-title-container {
+    perspective: 800px;
+    width: 100%;
+    padding: 2rem;
+}
+
+#baccarat-ascii {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+    color: #ecf0f1;
+    white-space: pre;
+    text-align: center;
+    
+    text-shadow:
+        0px 1px 0px #c8c8c8,
+        0px 2px 0px #b4b4b4,
+        0px 3px 0px #a0a0a0,
+        0px 4px 0px #8c8c8c,
+        0px 5px 0px #75757540,
+        0px 6px 0px #000000;
+
+    transition: all 0.2s ease-out;
+}
+
+.transparent-input {
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 15px;
+    color: white;
+    padding: 12px 20px;
+    margin-top: 15px;
+    width: 1000px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.transparent-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+}
+
+.transparent-input:focus::placeholder {
+    color: transparent;
+}
+
+/* Blackjack Styles */
+.blackjack-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 85%;
+    margin: 0 auto;
+    padding-bottom: 5rem;
+}
+
+#blackjack-title-container {
+    perspective: 800px;
+    width: 100%;
+    padding: 2rem;
+}
+
+#blackjack-ascii {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+    color: #ecf0f1;
+    white-space: pre;
+    text-align: center;
+    
+    text-shadow:
+        0px 1px 0px #c8c8c8,
+        0px 2px 0px #b4b4b4,
+        0px 3px 0px #a0a0a0,
+        0px 4px 0px #8c8c8c,
+        0px 5px 0px #75757540,
+        0px 6px 0px #000000;
+
+    transition: all 0.2s ease-out;
+}
+
+/* Poker Styles */
+.poker-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 85%;
+    margin: 0 auto;
+    padding-bottom: 5rem;
+}
+
+#poker-title-container {
+    perspective: 800px;
+    width: 100%;
+    padding: 2rem;
+}
+
+#poker-ascii {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+    color: #ecf0f1;
+    white-space: pre;
+    text-align: center;
+    
+    text-shadow:
+        0px 1px 0px #c8c8c8,
+        0px 2px 0px #b4b4b4,
+        0px 3px 0px #a0a0a0,
+        0px 4px 0px #8c8c8c,
+        0px 5px 0px #75757540,
+        0px 6px 0px #000000;
+
+    transition: all 0.2s ease-out;
 }
