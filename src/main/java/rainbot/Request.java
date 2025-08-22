@@ -1,5 +1,5 @@
 package rainbot;
 
-public class Request implements GameStateRequest {
+public class Request implements RequestFormat {
 
 }
