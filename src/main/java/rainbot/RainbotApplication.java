@@ -12,8 +12,8 @@ public class RainbotApplication {
 		SpringApplication.run(RainbotApplication.class, args);
 	}	
 
-	@RequestMapping(value = "/{path:[^\\.]*}")
-    public String forward() {
-        return "forward:/";
+	@RequestMapping(value = {"/", "/{path:^(?!gameState).*$}/**"})
+    public String index() {
+        return "index.html";
     }
 }

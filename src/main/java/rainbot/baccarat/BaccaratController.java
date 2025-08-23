@@ -6,6 +6,7 @@ import rainbot.GameStateRequest;
 
 @RestController
 public class BaccaratController implements GameStateRequest {
+
     @RequestMapping("/gameState_baccarat")
     public BaccaratRequest returnGameState() {
         return new BaccaratRequest();
