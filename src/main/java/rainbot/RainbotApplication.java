@@ -14,6 +14,6 @@ public class RainbotApplication {
 
 	@RequestMapping(value = {"/", "/{path:^(?!gameState).*$}/**"})
     public String index() {
-        return "index.html";
+        return "index";
     }
 }
