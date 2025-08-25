@@ -1,6 +1,6 @@
 package rainbot.poker;
 
-import rainbot.Request;
+import rainbot.components.Request;
 
 public class PokerRequest extends Request {
 

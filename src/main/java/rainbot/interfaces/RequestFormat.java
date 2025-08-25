@@ -1,4 +1,4 @@
-package rainbot;
+package rainbot.interfaces;
 
 public interface RequestFormat {
 

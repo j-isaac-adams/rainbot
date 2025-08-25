@@ -1,6 +1,6 @@
 package rainbot.baccarat;
 
-import rainbot.Request;
+import rainbot.components.Request;
 
 public class BaccaratRequest extends Request {
     String data = "Test text";
