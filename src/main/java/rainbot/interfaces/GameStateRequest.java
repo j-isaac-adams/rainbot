@@ -1,9 +1,11 @@
 package rainbot.interfaces;
 
 import org.springframework.web.bind.annotation.RequestBody;
+import java.net.URI;
 
 import rainbot.components.GameSocket;
 import rainbot.components.Request;
+import rainbot.components.SocketPayload;
 
 public interface GameStateRequest {
 
@@ -11,14 +13,11 @@ public interface GameStateRequest {
     public Request returnGameState();
 
     // Return HTTP Status code -> Game Session link.
-    public int connectGameSession(@RequestBody GameSocket socket);
+    public int connectGameSession(@RequestBody SocketPayload socket);
 
     //Handles connection to websocket.
-    default int handleConnect(String uri){
-        return connect(uri);
-    }
-
-    private int connect(String uri) {
-        return 204;
+    default int handleConnect(URI uri) {
+        GameSocket client = new GameSocket(uri);
+        return client.returnStatus();
     }
 }
