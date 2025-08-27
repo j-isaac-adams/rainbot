@@ -70,8 +70,12 @@ class BaccaratComponent {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            const result = await response.json();
-            console.log('✅ Server response:', result);
+            if (response.status === 204) {
+                console.log('✅ Request successful: Server responded with 204 No Content.');
+            } else {
+                const result = await response.json();
+                console.log('✅ Server response:', result);
+            }
 
         } catch (error) {
             console.error('❌ Failed to send request:', error);

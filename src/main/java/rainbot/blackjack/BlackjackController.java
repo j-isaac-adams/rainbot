@@ -1,5 +1,6 @@
 package rainbot.blackjack;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +17,7 @@ public class BlackjackController implements GameStateRequest {
     }
 
     @PostMapping("/gameSession_blackjack")
-    public int connectGameSession(@RequestBody SocketPayload socket) {
-        return handleConnect(socket.getURI());
+    public ResponseEntity<Void> connectGameSession(@RequestBody SocketPayload socket) {
+        return handleConnect(socket.getURI(), "blackjack");
     }
 }
