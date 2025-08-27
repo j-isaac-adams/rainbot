@@ -2,6 +2,12 @@ package rainbot.components;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import rainbot.baccarat.BaccaratRequest;
+
 import java.net.URI;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -9,8 +15,10 @@ import java.util.concurrent.TimeUnit;
 public class GameSocket extends WebSocketClient {
 
     private static volatile GameSocket instance;
+    private static final ObjectMapper mapper = new ObjectMapper();
+
     private String type;
-    private String gameState;
+    private Request gameState;
 
     private final CountDownLatch connectionLatch = new CountDownLatch(1);
 
@@ -38,7 +46,7 @@ public class GameSocket extends WebSocketClient {
         return this.type;
     }
 
-    public String getState() {
+    public Request getState() {
         return this.gameState;
     }
 
@@ -49,7 +57,24 @@ public class GameSocket extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
-        this.gameState = message;
+        try {
+            JsonNode rootNode = mapper.readTree(message);
+
+            if (rootNode.has("betstats")) {
+                BaccaratRequest request = mapper.treeToValue(rootNode, BaccaratRequest.class);
+                this.gameState = request;
+            } else if (rootNode.has("data")) {
+                // You would convert to your GameStatePacket class here
+                // GameStatePacket packet = mapper.treeToValue(rootNode, GameStatePacket.class);
+                // System.out.println("Game UUID: " + packet.getData().getTable().getUuid());
+
+            } else {
+                //TODO
+            }
+
+        } catch (Exception e) {
+            System.err.println("Failed to parse packet: " + e.getMessage());
+        }
     }
 
     @Override
