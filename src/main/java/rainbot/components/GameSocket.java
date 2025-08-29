@@ -52,28 +52,62 @@ public class GameSocket extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
+        this.gameState = new BaccaratRequest();
         connectionLatch.countDown();
     }
 
     @Override
     public void onMessage(String message) {
-        try {
-            JsonNode rootNode = mapper.readTree(message);
-
-            if (rootNode.has("betstats")) {
-                BaccaratRequest request = mapper.treeToValue(rootNode, BaccaratRequest.class);
-                this.gameState = request;
-            } else if (rootNode.has("data")) {
-                // You would convert to your GameStatePacket class here
-                // GameStatePacket packet = mapper.treeToValue(rootNode, GameStatePacket.class);
-                // System.out.println("Game UUID: " + packet.getData().getTable().getUuid());
-
-            } else {
-                //TODO
-            }
-
-        } catch (Exception e) {
-            System.err.println("Failed to parse packet: " + e.getMessage());
+        switch (this.type) {
+            case "baccarat":
+                try {
+                    JsonNode rootNode = mapper.readTree(message);
+                    BaccaratRequest request = mapper.treeToValue(rootNode, BaccaratRequest.class);
+                    if (request.getShoeSummary() != null) {
+                        ((BaccaratRequest)this.gameState).setShoeSummary(request.getShoeSummary());
+                        System.out.println("ShoeSummary");
+                    } else if (request.getBetstats() != null) {
+                        ((BaccaratRequest)this.gameState).setBetstats(request.getBetstats());
+                        System.out.println("BetStats");
+                    } else if (request.getGame() != null) {
+                        ((BaccaratRequest)this.gameState).setGame(request.getGame());
+                        System.out.println("Game");
+                    } else if (request.getGameResult() != null) {
+                        ((BaccaratRequest)this.gameState).setGameResult(request.getGameResult());
+                        System.out.println("GameResult");
+                    } else if (request.getBetsOpen() != null) {
+                        BaccaratRequest tempGameState = ((BaccaratRequest)this.gameState);
+                        tempGameState.setBetsOpen(request.getBetsOpen());
+                        tempGameState.setBetsClosed(null);
+                        tempGameState.setStartDealing(null);
+                        tempGameState.clearCards();
+                        this.gameState = tempGameState;
+                        System.out.println("BetsOpen");
+                    } else if (request.getBetsClosed() != null) {
+                        BaccaratRequest tempGameState = ((BaccaratRequest)this.gameState);
+                        tempGameState.setBetsClosed(request.getBetsClosed());
+                        tempGameState.setBetsOpen(null);
+                        tempGameState.setBetsClosingSoon(null);
+                        this.gameState = tempGameState;
+                        System.out.println("BetsClosed");
+                    } else if (request.getBetsClosingSoon() != null) {
+                        ((BaccaratRequest)this.gameState).setBetsClosingSoon(request.getBetsClosingSoon());
+                        System.out.println("BetsClosingSoon");
+                    } else if (request.getStartDealing() != null) {
+                        ((BaccaratRequest)this.gameState).setStartDealing(request.getStartDealing());
+                        System.out.println("StartDealing");
+                    } else if (request.getCard() != null) {
+                        ((BaccaratRequest)this.gameState).addCard(request.getCard());
+                        System.out.println("Card");
+                    }
+                } catch (Exception e) {
+                    System.out.println("BadPacket");
+                }
+                break;
+            case "blackjack":
+                break;
+            case "poker":
+                break;
         }
     }
 

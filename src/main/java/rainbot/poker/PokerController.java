@@ -12,8 +12,8 @@ import rainbot.interfaces.GameStateRequest;
 @RestController
 public class PokerController implements GameStateRequest {
     @GetMapping("/gameState_poker")
-    public PokerRequest returnGameState() {
-        return new PokerRequest();
+    public Object returnGameState() {
+        return new PokerRequest().formatReturn();
     }
 
     @PostMapping("/gameSession_poker")

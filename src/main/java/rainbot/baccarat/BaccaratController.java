@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rainbot.components.GameSocket;
-import rainbot.components.Request;
 import rainbot.components.SocketPayload;
 import rainbot.interfaces.GameStateRequest;
 
@@ -15,9 +14,9 @@ import rainbot.interfaces.GameStateRequest;
 public class BaccaratController implements GameStateRequest {
 
     @GetMapping("/gameState_baccarat")
-    public Request returnGameState() {
+    public Object returnGameState() {
         GameSocket socket = GameSocket.get();
-        return socket.getState();
+        return socket.getState().formatReturn();
     }
 
     @PostMapping("/gameSession_baccarat")

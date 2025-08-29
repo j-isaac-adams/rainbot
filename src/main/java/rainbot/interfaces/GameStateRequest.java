@@ -6,13 +6,12 @@ import java.net.URI;
 import java.util.concurrent.TimeUnit;
 
 import rainbot.components.GameSocket;
-import rainbot.components.Request;
 import rainbot.components.SocketPayload;
 
 public interface GameStateRequest {
 
     // Return JSON game data -> REST API.
-    public Request returnGameState();
+    public Object returnGameState();
 
     // Return HTTP Status code -> Game Session link.
     public ResponseEntity<Void> connectGameSession(@RequestBody SocketPayload socket);
