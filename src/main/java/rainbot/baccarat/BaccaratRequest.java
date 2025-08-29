@@ -1,5 +1,6 @@
 package rainbot.baccarat;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class BaccaratRequest extends Request {
     @JsonProperty("card")
     private CardPacket card;
 
-    private ArrayList<Card> cards;
+    private ArrayList<Card> cards = new ArrayList<>();
 
     public ReturnPacket formatReturn() {
         ReturnPacket returnPacket = new ReturnPacket();
@@ -94,7 +95,7 @@ public class BaccaratRequest extends Request {
     public CardPacket getCard() {return card;}
     public void setCard(CardPacket card) {this.card = card;}
 
-    public void clearCards() {this.cards = null;}
+    public void clearCards() {this.cards.clear();}
     public void addCard(CardPacket cardPacket) {
         Card card = new Card();
 
@@ -104,7 +105,7 @@ public class BaccaratRequest extends Request {
         this.cards.add(card);
     }
 
-    public class ReturnPacket {
+    public static class ReturnPacket {
         private String table;
         private String game;
     
@@ -249,7 +250,7 @@ public class BaccaratRequest extends Request {
         } 
     }
 
-    public class Card {
+    public static class Card {
         private String place;
         private String cardCode;
     
@@ -261,7 +262,7 @@ public class BaccaratRequest extends Request {
     }
 
     //Handles card packet.
-    public class CardPacket {
+    public static class CardPacket {
         private String sc;
         private String game;
         private String cardCount;
@@ -287,7 +288,7 @@ public class BaccaratRequest extends Request {
     }
 
     //Handles packets related to betting window.
-    public class GameEventPacket {
+    public static class GameEventPacket {
         private String game;
         private String table;
         private int seq;
@@ -301,9 +302,9 @@ public class BaccaratRequest extends Request {
     }
 
     //Handles GameResult packet.
-    public class GameResultPacket {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class GameResultPacket {
 
-        private String id;
         private String result;
         private String score;
         private boolean natural;
@@ -314,8 +315,6 @@ public class BaccaratRequest extends Request {
         @JsonProperty("banker_pair")
         private boolean bankerPair;
 
-        public String getId() { return id; }
-        public void setId(String id) { this.id = id; }
         public String getResult() { return result; }
         public void setResult(String result) { this.result = result; }
         public String getScore() { return score; }
@@ -329,7 +328,7 @@ public class BaccaratRequest extends Request {
     }
 
     //Handles Game packet.
-    public class GamePacket {
+    public static class GamePacket {
 
         private String id;
         private long starttime;

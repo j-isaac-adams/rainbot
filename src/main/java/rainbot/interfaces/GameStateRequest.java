@@ -20,6 +20,7 @@ public interface GameStateRequest {
     default ResponseEntity<Void> handleConnect(URI uri, String requestType) {
         try {
             GameSocket socket = GameSocket.get(uri, requestType);
+            socket.setConnectionLostTimeout(55);
             socket.connect();
             boolean connectionEstablished = socket.awaitConnection(10, TimeUnit.SECONDS);
             if (connectionEstablished && socket.isOpen()) {
